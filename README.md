@@ -37,8 +37,7 @@ Este repositório contém o código de uma **loja virtual** desenvolvida com o f
 
 1. **Clone o Repositório**  
    ```bash
-   git clone https://github.com/seu-usuario/loja-virtual-flask.git
-   cd loja-virtual-flask
+   git clone https://github.com/joaoRVA/Loja_Virtual_Flask.git
    ```  
 
 2. **Crie e Ative um Ambiente Virtual**  
