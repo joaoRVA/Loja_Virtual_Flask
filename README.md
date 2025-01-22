@@ -81,8 +81,9 @@ Este repositório contém o código de uma **loja virtual** desenvolvida com o f
 ## 📷 Demonstração  
 
 - **Cadastro de Produtos (Admin)**:  
-  ![Cadastro de Produtos](https://imgur.com/L0EJ6CL)  
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/GesRYne"  ><a href="//imgur.com/a/GesRYne">Loja_Virtual_Flask</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+ ![image](https://github.com/user-attachments/assets/bb71dd33-f586-46ba-acdd-bb81e4fb87fd)
+  
+
 - **Tela de Gerenciamento de Produtos (Admin)**:  
   ![Tela de Gerenciamento](https://imgur.com/axwhfJi)
   
