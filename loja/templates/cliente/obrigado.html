@@ -1,0 +1,60 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+    <style>
+        body {
+            margin: 0;
+            height: 100vh; /* Define a altura total da tela */
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center;    /* Centraliza verticalmente */
+            background-color: #210c2f; /* Cor de fundo (opcional) */
+            font-family: Helvetica;
+            
+        }
+
+        .texto {
+            text-align: center; /* Centraliza o texto dentro da div */
+            background-color: #fff; /* Fundo branco para destacar o texto */
+            padding: 20px; /* Espaçamento interno */
+            border-radius: 10px; /* Bordas arredondadas */
+            box-shadow: 3px 4px 4px rgba(235, 246, 115, 0.589); /* Adiciona uma leve sombra */
+
+        }
+
+        .btn{
+            padding: 10px;
+            background-color: green;
+            border-radius: 10px;
+            color: white;
+            transition: 0.2s;
+            margin-top: 20px;
+            text-decoration: none;
+
+        }
+
+        .btn:hover{
+            cursor: pointer;
+            transform: scale(1.1, 1.1);
+            background-color: green;
+            color: yellow;
+        }
+    </style>
+
+
+
+<body>
+    <div class="texto">
+        <h2>Compra efetuada com sucesso</h2>
+        <h4>Obrigado por comprar conosco!</h4>
+        <div class="position-relative">
+
+            <a  class="btn" href="{{url_for('home')}}" style="background-color: #c27803;">Página Inicial</a>
+
+        </div>
+
+    </div>
+</body>
+</html>
+
+{% endblock content %}

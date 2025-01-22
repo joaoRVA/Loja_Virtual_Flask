@@ -1,0 +1,208 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+{% include '_messages.html' %}
+<div class="container mt-4">
+    <div class="row">
+        {% if marca %}
+        {% for m in marca.items %}
+        <div class="col-md-4">
+            <div class="card mt-4">
+                <img src="{{url_for('static', filename='images/' + m.image_1)}}" alt="{{m.name}}" class="card-img-top" height="350">
+                <div class="card-body">
+                    <h4 class="text-center">{{m.name}}</h4>
+                    {% if m.discount > 0 %}
+                    <h5 class="text-center" style="padding: 3px; border-radius: 10px; position: absolute; top: 325px; background-color: rgba(220, 47, 4, 0.855); text-shadow: 1px 1px 2px #0000008b; color: rgb(255, 255, 255);"> Desconto: {{m.discount}}%</h5>
+                    {% endif %}
+                    <p class="text-center">Preço: R${{m.price}}</p>
+                </div>
+                
+                <div class="card-footer d-flex justify-content-start">
+                  <a href="{{url_for('pagina_unica', id=m.id)}}" class="btn btn-sm btn-success">Detalhes</a>
+                  <form action="{{url_for('addCarrinho')}}" method="POST">
+                    <input type="hidden" name="produto_id" value="{{m.id}}">
+                    <input type="hidden" name="quantity" value="1" min="1" max="{{m.stock}}">
+                
+                    {% set colors = m.colors.split(',') %}
+                    <select name="colors" id="colors" style="visibility: hidden;">
+                      {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                      {% endfor %}
+                    </select>
+                
+                    <button type="submit" class="btn btn-sm btn-warning" style="position: absolute; left: 100px;">Adicionar Carrinho</button>
+                  </form>
+                  
+                </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <div class="pagination-container d-flex justify-content-center align-items-center mt-5">
+        {% if marca.total > 3 %}
+          {% if marca.has_prev %}
+          <a class="btn btn-success btn-sm mx-1" href="{{url_for('get_marca', id=get_id_marca.id, pagina=marca.prev_num)}}">Anterior</a>
+          {% endif %}
+
+          {% for pag in marca.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+
+          {% if pag %}
+            {% if pagina_atual == pag %}
+            <a class="btn btn-success btn-sm mx-1" href="{{url_for('get_marca', id=get_id_marca.id, pagina=pag)}}">{{pag}}</a>
+            {% else %}
+            <a class="btn btn-outline-success btn-sm mx-1" href="{{url_for('get_marca', id=get_id_marca.id, pagina=pag)}}">{{pag}}</a>
+            {% endif %}
+            {% else %}
+            <span class="pagination-dots mx-1">...</span>
+            {% endif %}
+
+          {% endfor %}
+
+          {% if marca.has_next %}
+          <a class="btn btn-success btn-sm mx-1" href="{{url_for('get_marca', id=get_id_marca.id, pagina=marca.next_num)}}">Próxima</a>
+          {% endif %}
+        {% endif %}
+      </div>
+      </div>
+    </div>
+    <div class="row">
+        {% elif categoria %}
+        {% for cat in categoria.items %}
+        <div class="col-md-4">
+            <div class="card mt-4 " >
+                <img src="{{url_for('static', filename='images/' + cat.image_1)}}" alt="{{cat.name}}" class="card-img-top" height="350">
+                <div class="card-body">
+                    <h4 class="text-center">{{cat.name}}</h4>
+                    {% if cat.discount > 0 %}
+                    <h5 class="text-center" style="padding: 3px; border-radius: 10px; position: absolute; top: 325px; background-color: rgba(220, 47, 4, 0.855); text-shadow: 1px 1px 2px #0000008b; color: rgb(255, 255, 255);"> Desconto: {{cat.discount}}%</h5>
+                    {% endif %}
+                    <p class="text-center">Preço: R${{cat.price}}</p>
+                </div>
+                
+                <div class="card-footer d-flex justify-content-start">
+                  <a href="{{url_for('pagina_unica', id=cat.id)}}" class="btn btn-sm btn-success">Detalhes</a>
+                  <form action="{{url_for('addCarrinho')}}" method="POST">
+                    <input type="hidden" name="produto_id" value="{{cat.id}}">
+                    <input type="hidden" name="quantity" value="1" min="1" max="{{cat.stock}}">
+                
+                    {% set colors = cat.colors.split(',') %}
+                    <select name="colors" id="colors" style="visibility: hidden;">
+                      {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                      {% endfor %}
+                    </select>
+                
+                    <button type="submit" class="btn btn-sm btn-warning" style="position: absolute; left: 100px;">Adicionar Carrinho</button>
+                  </form>
+                  
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+      <div class="col text-center">
+        <div class="pagination-container d-flex justify-content-center align-items-center mt-5">
+        {% if categoria.total > 3 %}
+          {% if categoria.has_prev %}
+          <a class="btn btn-success btn-sm mx-1" href="{{url_for('get_categoria', id=get_cat.id ,pagina=categoria.prev_num)}}">Anterior</a>
+          {% endif %}
+
+          {% for pag in categoria.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+
+          {% if pag %}
+            {% if pagina_atual == pag %}
+            <a class="btn btn-success btn-sm mx-1" href="{{url_for('get_categoria', id=get_cat.id , pagina=pag)}}">{{pag}}</a>
+            {% else %}
+            <a class="btn btn-outline-success btn-sm mx-1" href="{{url_for('get_categoria', id=get_cat.id , pagina=pag)}}">{{pag}}</a>
+            {% endif %}
+          {% else %}
+          <span class="pagination-dots mx-1">...</span>
+          {% endif %}
+          {% endfor %}
+
+          {% if categoria.has_next %}
+          <a class="btn btn-success btn-sm mx-1" href="{{url_for('get_categoria', id=get_cat.id , pagina=categoria.next_num)}}">Próxima</a>
+          {% endif %}
+        {% endif %}
+      </div>
+      </div>
+    </div>
+    <div class="row">
+        {% else %}
+        {% for produto in produtos.items %}
+        <div class="col-md-4">
+            <div class="card mt-4">
+                <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{produto.name}}" class="card-img-top " height="350">
+                <div class="card-body">
+                    <h4 class="text-center">{{produto.name}}</h4>
+                    {% if produto.discount > 0 %}
+                        <h5 class="text-center" style="padding: 3px; border-radius: 10px; position: absolute; top: 325px; background-color: rgba(220, 47, 4, 0.855); text-shadow: 1px 1px 2px #0000008b; color: rgb(255, 255, 255);"> Desconto: {{produto.discount}}%</h5>
+                    {% endif %}
+                    <p class="text-center">Preço: R${{produto.price}}</p>
+                </div>
+                
+                <div class="card-footer d-flex justify-content-start">
+                  <a href="{{url_for('pagina_unica', id=produto.id)}}" class="btn btn-sm btn-success">Detalhes</a>
+                  <form action="{{url_for('addCarrinho')}}" method="POST">
+                    <input type="hidden" name="produto_id" value="{{produto.id}}">
+                    <input type="hidden" name="quantity" value="1" min="1" max="{{produto.stock}}">
+                
+                    {% set colors = produto.colors.split(',') %}
+                    <select name="colors" id="colors" style="visibility: hidden;">
+                      {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                      {% endfor %}
+                    </select>
+                
+                    <button type="submit" class="btn btn-sm btn-warning" style="position: absolute; left: 100px;">Adicionar Carrinho</button>
+                  </form>
+                  
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <div class="pagination-container d-flex justify-content-center align-items-center mt-5">
+          {% if produtos.total > 3 %}
+            {% if produtos.has_prev %}
+            <a class="btn btn-success btn-sm mx-1" href="{{ url_for('home', pagina=produtos.prev_num) }}">Anterior</a>
+            {% endif %}
+      
+            {% for pag in produtos.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+              {% if pag %}
+                {% if pagina_atual == pag %}
+                <a class="btn btn-success btn-sm mx-1" href="{{ url_for('home', pagina=pag) }}">{{ pag }}</a>
+                {% else %}
+                <a class="btn btn-outline-success btn-sm mx-1" href="{{ url_for('home', pagina=pag) }}">{{ pag }}</a>
+                {% endif %}
+              {% else %}
+              <span class="pagination-dots mx-1">...</span>
+              {% endif %}
+            {% endfor %}
+      
+            {% if produtos.has_next %}
+            <a class="btn btn-success btn-sm mx-1" href="{{ url_for('home', pagina=produtos.next_num) }}">Próxima</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+        
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock content %}

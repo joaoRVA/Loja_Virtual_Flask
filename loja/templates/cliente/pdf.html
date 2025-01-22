@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        th, td {
+          text-align: left;
+          padding: 8px;
+        }
+        
+        
+        </style>
+</head>
+  <body>
+  
+    
+ 
+
+
+    
+
+<div class="container mt-2">
+    {% include '_messages.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            <b style="float:right;">Numero do pedido: {{pedidos.notafiscal}}</b>
+            <br>
+            <br>
+            Status do pedido: {{pedidos.status}}
+            <br>
+            Nome do Cliente: {{cliente.name}}
+            <br>
+            E-mail do Cliente: {{cliente.email}}
+            <br>
+            Telefone do Cliente: {{cliente.contact}}
+            <br>
+            Endereço do Cliente: {{cliente.address}}
+            <br>
+            Caixa Postal do Cliente: {{cliente.zipcode}}
+            <br>
+            <br>
+        </div>
+        <table class="table">
+            <thead>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Subtotal</th>
+                <th>Desconto</th>
+                <th>Total</th>
+
+               
+            </thead>
+
+            <tbody>
+
+                {% for key, produto in pedidos.pedido.items() %}
+                {% set discount = "%0.2f" | format((produto['Desconto']/100) * produto['Preco']|float) %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{produto['Nome']}}</td>
+                    <form action="{{url_for('updateCarro', code=key)}}" method="post">
+                        
+                        
+                        <td>R$ {{produto['Preco']}}</td>
+                        <td>{{produto['Quantidade']}}</td>
+                        {% set subtotal = "%0.2f" | format((produto['Preco']|float * produto['Quantidade']|int))%}
+                        <td>R$ {{subtotal}}</td>
+                        {% if produto['Desconto'] > 0 %}
+                            <td>{{produto['Desconto']}}% &nbsp; = {{discount}}</td>
+                        {% else %}
+                            <td></td>
+                        {%endif%}
+                        
+                        {% set Total = produto['Quantidade']|int * produto['Preco']|float %}
+                        <td>R$ {{"%0.2f"| format((Total|float - discount|float)) }}</td>
+
+                    </form>
+                </tr>
+                {% endfor %}
+
+                <tr style="background-color: aqua;">
+                    
+                    <td colspan="2"><b>Imposto: &nbsp;R${{imposto}}</b></td>
+                    <td colspan="2"><b>Valor Pagar: &nbsp;R${{total}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

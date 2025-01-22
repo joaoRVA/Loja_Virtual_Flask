@@ -1,0 +1,45 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+{% include '_messages.html' %}
+<div class="container mt-4">
+    <div class="row">
+        {% for produto in produtos %}
+        <div class="col-md-4">
+            <div class="card mt-4">
+                <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{produto.name}}" class="card-img-top" height="350">
+                <div class="card-body">
+                    <h4 class="text-center">{{produto.name}}</h4>
+                    {% if produto.discount > 0 %}
+                        <h5 class="text-center" style="position: absolute; top: 325px; background-color: rgb(243, 227, 112); text-shadow: 1px 1px 2px #0000008b; color: red;"> Desconto: {{produto.discount}}%</h5>
+                    {% endif %}
+                    <p class="text-center">Preço: R${{produto.price}}</p>
+                </div>
+                
+                <div class="card-footer d-flex justify-content-start">
+                  <a href="{{url_for('pagina_unica', id=produto.id)}}" class="btn btn-sm btn-success">Detalhes</a>
+                  <form action="{{url_for('addCarrinho')}}" method="POST">
+                    <input type="hidden" name="produto_id" value="{{produto.id}}">
+                    <input type="hidden" name="quantity" value="1" min="1" max="{{produto.stock}}">
+                
+                    {% set colors = produto.colors.split(',') %}
+                    <select name="colors" id="colors" style="visibility: hidden;">
+                      {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                      {% endfor %}
+                    </select>
+                
+                    <button type="submit" class="btn btn-sm btn-warning" style="position: absolute; left: 100px;">Adicionar Carrinho</button>
+                  </form>
+                  
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+ </div>
+</div>
+    
+{% endblock content %}

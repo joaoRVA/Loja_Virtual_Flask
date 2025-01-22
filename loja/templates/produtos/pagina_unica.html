@@ -1,0 +1,91 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<style>
+  #s_image img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  #s_image img:hover {
+    transform: scale(1.1); /* Aumenta a imagem em 10% */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona sombra */
+    cursor: pointer; /* Garante que o cursor seja uma mão */
+  }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6" id="m_image">
+            <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{produto.name}}" height="400" width="450">
+        </div>
+   
+
+        <div class="col-md-6">
+            <h4>{{produto.name}}</h4>
+            <hr>
+        
+            {% if produto.discount > 0 %}
+            <b>Desconto: {{produto.discount}}%</b>
+            {% endif %}
+            <p>Preço: R$ {{produto.price}}</p>
+            <br>
+            <p><strong>Descrição:</strong> {{produto.description}}</p>
+            <hr>
+            <form action="{{url_for('addCarrinho')}}" method="POST">
+              <input type="hidden" name="produto_id" value="{{produto.id}}">
+              <button type="submit" class="btn btn-sm btn-warning">Adicionar ao Carrinho</button>
+              <label for="">Quantidade :</label>
+              <input type="number" name="quantity" id="" value="1" min="1" max="{{produto.stock}}">
+              {% set colors = produto.colors.split(',') %}
+              <label for="colors">Cor do Produto :</label>
+              <select name="colors" id="colors">
+                {% for color in colors %}
+                  {% set col = color.split(':') %}
+                  {% if col[0] == produto['Cor'] %}
+                    <option value="{{col[0]}}" selected>{{col[0]|capitalize}}</option>
+                   {%else%}
+                    <option value="{{col[0]}}" >{{col[0]|capitalize}}</option>
+                   {% endif %}
+                {% endfor %}
+              </select>
+            </form>
+            <br>
+            {% include '_messages.html' %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mt-5" id="s_image">
+          <hr>
+            <img src="{{url_for('static', filename='images/' + produto.image_1)}}" alt="{{produto.name}}" height="150" width="150" class="p-2">
+            <img src="{{url_for('static', filename='images/' + produto.image_2)}}" alt="{{produto.name}}" height="150" width="150" class="p-2">
+            <img src="{{url_for('static', filename='images/' + produto.image_3)}}" alt="{{produto.name}}" height="150" width="150" class="p-2">
+        </div>
+    </div>
+</div>
+
+
+<script>
+  var m_image = document.getElementById('m_image');
+  var s_images = document.getElementById('s_image').getElementsByTagName('img');
+
+  // Adicionar eventos de clique a todas as imagens em s_image
+  for (let i = 0; i < s_images.length; i++) {
+    s_images[i].addEventListener('click', fullImage);
+  }
+
+  function fullImage() {
+    var imageSRC = this.getAttribute('src'); // Obtém o atributo 'src' da imagem clicada
+
+    // Cria dinamicamente o elemento img
+    var imgElement = document.createElement('img');
+    imgElement.src = imageSRC;
+    imgElement.height = 400;
+    imgElement.width = 450;
+
+    // Substitui o conteúdo de m_image pelo novo elemento img
+    m_image.innerHTML = '';
+    m_image.appendChild(imgElement);
+  }
+</script>
+{% endblock content %}
