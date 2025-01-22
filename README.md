@@ -80,7 +80,8 @@ Este repositório contém o código de uma **loja virtual** desenvolvida com o f
 
 ## 📷 Demonstração  
 - **Tela de Compra (HomePage)**:  
-  ![image](https://github.com/user-attachments/assets/986a19f7-a8b4-4145-bcc3-ef5deae78744)
+  ![image](https://github.com/user-attachments/assets/580ed321-8105-4943-a76b-a1da1c88a25b)
+
 
 - **Cadastro de Produtos (Admin)**:  
  ![image](https://github.com/user-attachments/assets/3f67cf0c-891d-443a-a3f4-4bf02af14564)
@@ -91,7 +92,7 @@ Este repositório contém o código de uma **loja virtual** desenvolvida com o f
 
   
 - **Tela de Carrinho**:  
-  ![image](https://github.com/user-attachments/assets/21f197e4-b9fe-4c93-b18f-15fecf588a8b)
+  ![image](https://github.com/user-attachments/assets/986a19f7-a8b4-4145-bcc3-ef5deae78744)
 
   
 - **Nota Fiscal Gerada**:  
